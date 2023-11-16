@@ -39,6 +39,13 @@ namespace ECommerce.Business.Concrete
             return await _productDal.GetList(p => p.CategoryId == categoryId || categoryId == 0);
         }
 
+        public List<Product> GetAllByFilterAZ(List<Product> list, bool az = false)
+        {
+            if (az)
+                return  list.OrderBy(x => x.ProductName).ToList();
+            return list.OrderByDescending(x => x.ProductName).ToList();
+        }
+
         public async Task<Product> GetById(int id)
         {
             return await _productDal.Get(p=>p.ProductId==id);

@@ -1,5 +1,6 @@
 ﻿@model ProductListViewModel
 
+
 <table class="table">
     <thead>
         <tr>
@@ -27,10 +28,25 @@
                     asp-route-productId="@item.ProductId"
                     >Add To Cart</a>
                 </td>
+                <td>
+                    <a class="btn btn-xs btn-danger" asp-controller="Cart" asp-action="RemoveFromCart"
+                   asp-route-productId="@item.ProductId">Remove from cart</a>
+                </td>
             </tr>
         }
     </tbody>
 </table>
+
+<p>
+    @if (Model.CurrentFilterState)
+    {
+        <a href="/product/index?page=@Model.CurrentPage&category=@Model.CurrentCategory&filterAZ=true" class="btn btn-outline-primary">A-Z</a>
+    }
+    else
+    {
+        <a href="/product/index?page=@Model.CurrentPage&category=@Model.CurrentCategory&filterAZ=false" class="btn btn-outline-primary">Z-A</a>
+    }
+</p>
 
 <product-list-pager current-category="@Model.CurrentCategory"
   current-page="@Model.CurrentPage"

@@ -1,4 +1,5 @@
 ﻿using ECommerce.Business.Abstract;
+using ECommerce.Entities.Concrete;
 using ECommerce.WebUI.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,5 +30,20 @@ namespace ECommerce.WebUI.Controllers
 
             return RedirectToAction("Index", "Product");
         }
+
+        public async Task< IActionResult> RemoveFromCart(int productId)
+        {
+            var productToBeRemoved = await _productService.GetById(productId);
+            var cart = _cartSessionService.GetCart();
+            _cartService.RemoveFromCart(cart, productId);
+            _cartSessionService.SetCart(cart);
+            TempData.Add("message", String.Format("Your product, {0} was removed successfully from cart", productToBeRemoved.ProductName));
+            return RedirectToAction("Index","Product");
+        }
+
+
+
+
+
     }
 }
