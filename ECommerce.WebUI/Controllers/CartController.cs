@@ -1,5 +1,6 @@
 ﻿using ECommerce.Business.Abstract;
 using ECommerce.Entities.Concrete;
+using ECommerce.WebUI.Models;
 using ECommerce.WebUI.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -92,6 +93,26 @@ namespace ECommerce.WebUI.Controllers
             return RedirectToAction("List");
         }
 
+
+        public IActionResult Complete()
+        {
+            var shippingDetailsViewModel = new ShippingDetailsViewModel
+            {
+                ShippingDetails = new ShippingDetails()
+            };
+            return View(shippingDetailsViewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Complete(ShippingDetailsViewModel data)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            TempData.Add("message", String.Format("Thank you {0} , your order is in progress.", data.ShippingDetails.Firstname));
+            return View();
+        }
 
     }
 }

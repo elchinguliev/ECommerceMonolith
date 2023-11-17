@@ -27,6 +27,11 @@
                     <a class="btn btn-xs btn-success"
                        href="/Cart/AddToCart?productId=@item.ProductId&page=@Model.CurrentPage&category=@Model.CurrentCategory">Add To Cart</a>
                 </td>
+
+                <td>
+                    <a class="btn btn-xs btn-danger"
+                       href="/Cart/RemoveFromCart?productId=@item.ProductId&page=@Model.CurrentPage&category=@Model.CurrentCategory">Delete From Cart</a>
+                </td>
                
             </tr>
         }
