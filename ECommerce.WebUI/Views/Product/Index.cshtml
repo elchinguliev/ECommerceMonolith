@@ -24,14 +24,10 @@
                     @item.UnitsInStock
                 </td>
                 <td>
-                    <a class="btn btn-xs btn-success" asp-controller="Cart" asp-action="AddToCart"
-                    asp-route-productId="@item.ProductId"
-                    >Add To Cart</a>
+                    <a class="btn btn-xs btn-success"
+                       href="/Cart/AddToCart?productId=@item.ProductId&page=@Model.CurrentPage&category=@Model.CurrentCategory">Add To Cart</a>
                 </td>
-                <td>
-                    <a class="btn btn-xs btn-danger" asp-controller="Cart" asp-action="RemoveFromCart"
-                   asp-route-productId="@item.ProductId">Remove from cart</a>
-                </td>
+               
             </tr>
         }
     </tbody>

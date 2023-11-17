@@ -42,7 +42,55 @@ namespace ECommerce.WebUI.Controllers
         }
 
 
+        public async Task<IActionResult> List()
+        {
+            var cart=_cartSessionService.GetCart();
+            var model = new CartListViewModel
+            {
+                Cart=cart
+            };
+            return View(model);
+        }
 
+
+        public IActionResult Remove(int productId)
+        {
+            var cart = _cartSessionService.GetCart();
+
+            _cartService.RemoveFromCart(cart, productId);
+            _cartSessionService.SetCart(cart);
+            TempData.Add("message", "Your Product was removed successfully from cart");
+            return RedirectToAction("List");
+        }
+
+
+        public IActionResult increase(int productId)
+        {
+            var cart = _cartSessionService.GetCart();
+            var cartline=cart.CartLines.FirstOrDefault(c=>c.Product.ProductId==productId);
+            if (cartline.Quantity<cartline.Product.UnitsInStock)
+            {
+                cartline.Quantity++;
+                _cartSessionService.SetCart(cart);
+                TempData.Add("message", "One item added");
+            }
+         
+            return RedirectToAction("List");
+        }
+
+        public IActionResult decrease(int productId)
+        {
+            var cart = _cartSessionService.GetCart();
+            var cartline = cart.CartLines.FirstOrDefault(c => c.Product.ProductId==productId);
+            if (cartline.Quantity>1)
+            {
+                cartline.Quantity--;
+                _cartSessionService.SetCart(cart);
+                TempData.Add("message", "One item deleted");
+            }
+
+            return RedirectToAction("List");
+        }
 
 
     }
