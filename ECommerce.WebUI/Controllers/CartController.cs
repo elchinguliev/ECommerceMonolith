@@ -19,7 +19,9 @@ namespace ECommerce.WebUI.Controllers
             _cartService = cartService;
         }
 
-        public async Task<IActionResult> AddToCart(int productId)
+
+
+        public async Task<IActionResult> AddToCart(int productId, int page, int category)
         {
             var productToBeAdded = await _productService.GetById(productId);
             var cart = _cartSessionService.GetCart();
@@ -29,7 +31,7 @@ namespace ECommerce.WebUI.Controllers
 
             TempData.Add("message", String.Format("Your product, {0} was added successfully to cart", productToBeAdded.ProductName));
 
-            return RedirectToAction("Index", "Product");
+            return RedirectToAction("Index", "Product", new { page = page, category = category });
         }
 
         public async Task< IActionResult> RemoveFromCart(int productId)

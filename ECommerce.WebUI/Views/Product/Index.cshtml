@@ -47,7 +47,20 @@
     {
         <a href="/product/index?page=@Model.CurrentPage&category=@Model.CurrentCategory&filterAZ=false" class="btn btn-outline-primary">Z-A</a>
     }
+
 </p>
+<P>
+
+    @if (Model.CurrentFilterStateHigher)
+    {
+        <a href="/product/index?page=@Model.CurrentPage&category=@Model.CurrentCategory&filterAZ=@Model.CurrentFilterState&filterHigher=true" class="btn btn-outline-primary">Low-High</a>
+    }
+    else
+    {
+        <a href="/product/index?page=@Model.CurrentPage&category=@Model.CurrentCategory&filterAZ=@Model.CurrentFilterState&filterHigher=true" class="btn btn-outline-primary">High-Low</a>
+    }
+</p>
+
 
 
 
@@ -58,16 +71,5 @@
   current-page="@Model.CurrentPage"
   page-count="@Model.PageCount"
   page-size="@Model.PageSize"
-       
-
 >
-
 </product-list-pager>
-
-
-<p>
-
-        <a href="" class="btn btn-outline-primary">Next</a>
-        <a href="" class="btn btn-outline-primary">Previous</a>
-   
-</p>

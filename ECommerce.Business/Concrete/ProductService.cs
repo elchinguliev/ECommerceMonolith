@@ -42,8 +42,15 @@ namespace ECommerce.Business.Concrete
         public List<Product> GetAllByFilterAZ(List<Product> list, bool az = false)
         {
             if (az)
-                return  list.OrderBy(x => x.ProductName).ToList();
+                return list.OrderBy(x => x.ProductName).ToList();
             return list.OrderByDescending(x => x.ProductName).ToList();
+        }
+
+        public List<Product> GetAllByFilterHigherToLower(List<Product> list, bool higher = false)
+        {
+            if (higher)
+                return list.OrderBy(p => p.UnitPrice).ToList();
+            return list.OrderByDescending(p => p.UnitPrice).ToList();
         }
 
         public async Task<Product> GetById(int id)

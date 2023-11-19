@@ -11,7 +11,8 @@ namespace ECommerce.Business.Abstract
     {
         Task<List<Product>> GetAll();
         Task<List<Product>> GetAllByCategory(int categoryId);
-        List<Product> GetAllByFilterAZ(List<Product> list, bool az = false);
+        List<Product> GetAllByFilterAZ(List<Product> list, bool az = false); 
+        List<Product> GetAllByFilterHigherToLower(List<Product> list, bool higher = false);
 
         Task Add(Product product);
         Task Update(Product product);

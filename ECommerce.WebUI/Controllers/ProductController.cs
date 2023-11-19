@@ -16,29 +16,39 @@ namespace ECommerce.WebUI.Controllers
             _productService = productService;
         }
 
-        public static bool FilterProcess { get; set; } = false;
+        public static bool FilterState { get; set; } = false;
+        public static bool FilterStateHigher { get; set; } = false;
 
         // GET: ProductController
-        public async Task<ActionResult> Index(int page=1,int category=0 ,bool filterAz=false)
+        public async Task<ActionResult> Index(int page=1,int category=0 ,bool filterAZ=false ,bool filterHigher=false)
         {
-            var products=await _productService.GetAllByCategory(category);
-            products= _productService.GetAllByFilterAZ(products, filterAz);
-            FilterProcess = !FilterProcess;
-
-
             int pageSize = 10;
-
+            var products = await _productService.GetAllByCategory(category);
+            products= _productService.GetAllByFilterAZ(products, filterAZ);
+            FilterState = !FilterState;
+    
+            if (filterHigher)
+            {
+                products = _productService.GetAllByFilterHigherToLower(products, FilterStateHigher);
+                FilterStateHigher = !FilterStateHigher;
+            }
             var model = new ProductListViewModel
             {
-                CurrentFilterState= FilterProcess,
-                Products = products.Skip((page-1)*pageSize).Take(pageSize).ToList(),
-                CurrentCategory=category,
-                PageCount=((int)Math.Ceiling(products.Count/(double)pageSize)),
-                PageSize=pageSize,
-                CurrentPage=page
+                CurrentFilterStateHigher = FilterStateHigher,
+                CurrentFilterState = FilterState,
+                Products = products.Skip((page - 1) * pageSize).Take(pageSize).ToList(),
+                CurrentCategory = category,
+                PageCount = (int)Math.Ceiling(products.Count / (double)pageSize),
+                PageSize = pageSize,
+                CurrentPage = page
             };
             return View(model);
+
         }
+
+
+
+
 
         public ActionResult Details(int id)
         {
