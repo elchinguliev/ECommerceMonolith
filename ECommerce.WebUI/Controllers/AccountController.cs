@@ -1,0 +1,57 @@
+﻿using ECommerce.WebUI.Entities;
+using ECommerce.WebUI.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+
+namespace ECommerce.WebUI.Controllers
+{
+    public class AccountController : Controller
+    {
+        private readonly UserManager<CustomIdentityUser> _userManager;
+        private readonly RoleManager<CustomIdentityRole> _roleManager;
+        private readonly SignInManager<CustomIdentityUser> _signInManager;
+        public AccountController(UserManager<CustomIdentityUser> user,RoleManager<CustomIdentityRole> role, SignInManager<CustomIdentityUser>signInManager)
+        {
+            _userManager=user;
+            _roleManager=role;
+            _signInManager=signInManager;
+        }
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task< IActionResult> Register(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                CustomIdentityUser user = new CustomIdentityUser
+                {
+                    UserName=model.Username,
+                    Email=model.Email
+                };
+                IdentityResult result = await _userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    if (!( await _roleManager.RoleExistsAsync("Admin")))
+                    {
+                        CustomIdentityRole role = new CustomIdentityRole
+                        {
+                            Name="Admin"
+                        };
+                        IdentityResult roleResult = await _roleManager.CreateAsync(role);
+                        if (!roleResult.Succeeded)
+                        {
+                            ModelState.AddModelError("","We can not add role");
+                        }
+                    }
+                    await _userManager.AddToRoleAsync(user, "Admin");
+                    return RedirectToAction("Login", "Account");
+                }
+            }
+            return View();
+        }
+    }
+}

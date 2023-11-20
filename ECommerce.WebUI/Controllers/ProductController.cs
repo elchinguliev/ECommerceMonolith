@@ -1,6 +1,7 @@
 ﻿using ECommerce.Business.Abstract;
 using ECommerce.Entities.Models;
 using ECommerce.WebUI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +21,7 @@ namespace ECommerce.WebUI.Controllers
         public static bool FilterStateHigher { get; set; } = false;
 
         // GET: ProductController
+        [Authorize]
         public async Task<ActionResult> Index(int page=1,int category=0 ,bool filterAZ=false ,bool filterHigher=false)
         {
             int pageSize = 10;
