@@ -8,6 +8,14 @@
         {
             css += " active";
         }
-        <a href="/product/index?category=@item.CategoryId" style="cursor:pointer;" class="@css">@item.CategoryName</a>
+
+        if (Model.IsAdmin)
+        {
+            <a href="/admin/index?category=@item.CategoryId" style="cursor:pointer;" class="@css">@item.CategoryName</a>
+        }
+        else
+        {
+            <a href="/product/index?category=@item.CategoryId" style="cursor:pointer;" class="@css">@item.CategoryName</a>
+        }
     }
 </section>

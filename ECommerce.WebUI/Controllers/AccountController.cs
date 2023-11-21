@@ -53,5 +53,27 @@ namespace ECommerce.WebUI.Controllers
             }
             return View();
         }
+
+
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Admin");
+                }
+                ModelState.AddModelError("", "Invalid Login");
+            }
+            return View(model);
+        }
     }
 }

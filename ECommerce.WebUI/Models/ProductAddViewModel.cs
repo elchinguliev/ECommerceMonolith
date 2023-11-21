@@ -2,10 +2,9 @@
 
 namespace ECommerce.WebUI.Models
 {
-    public class CategoryListViewModel
+    public class ProductAddViewModel
     {
+        public Product? Product { get; set; }
         public List<Category>? Categories { get; set; }
-        public int CurrentCategory { get;  set; }
-        public bool IsAdmin { get;  set; } = false;
     }
 }
